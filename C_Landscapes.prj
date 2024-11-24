@@ -1,0 +1,24 @@
+//------------------------------------------------------------------------------
+// JRN_TRACKING
+//------------------------------------------------------------------------------
+
+#statusline "statgal"
+
+#include GalNet.inc end;
+#include GloVars.inc
+// #include galaktika.vil
+
+#component "C_LANDSCAPES"
+#define CompTitle Отслеживание событий изменений
+#doc
+  #CompTitle
+#end
+#params
+[vip]
+LicenseControlInclude=""
+#end
+#include C_Landscapes.ver
+#include Landscapes.inc
+
+#make "vip\Landscapes_BASE.vip"
+

@@ -1,0 +1,47 @@
+/*
+13600 - 13605
+alter dictionary;
+*/
+
+
+Create Table Landscapes "Ландшафты"
+  With Table_CODE = 13600
+  With Replace
+  With TableOptions Branched
+(
+   NRec         : comp     "Номер записи"
+ , code         : string   "Код"
+ , name         : string   "Наименование"
+ , description  : string   "Описание"
+ , httpaddress  : string   "http(s) адрес контура Галактики"
+ , port         : word     "Порт контура галактики"
+ , isCurrentSys : boolean  "Признак текущей системы"
+ , login        : string   "Логин в контур Галактики"
+ , password     : string   "Пароль в контур Галактики"
+ , salt         : byte     "'соль' для пароля"
+ , cResieptSys  : comp     "Контур-получатель пакетов"
+ , WhenActive   : datetime "Дата-время поледнего опроса"
+)
+with Index
+(
+   Landscapes01 = NRec (unique, surrogate, journal)
+ , Landscapes02 = code (unique)
+);
+
+Create Table Landscape_package "Ландшафты. Пакет данных"
+  With Table_CODE = 13601
+  With Replace
+  With TableOptions Branched
+(
+   NRec         : comp     "Номер записи"
+ , code         : string   "Код"
+ , name         : string   "Наименование"
+ , description  : string   "Описание"
+ , Landscapes   : ref(Landscapes) "В каком ландшафте сбор пакета"
+ , Status       : byte     "Статус пакета"
+)
+with Index
+(
+   Landscapes01 = NRec (unique, surrogate, journal)
+ , Landscapes02 = code (unique)
+);

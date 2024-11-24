@@ -1,0 +1,4 @@
+alter dictionary;
+drop Table JRN_LastNrecs;
+drop Table JRN_Publication_term;
+drop Table JRN_Public_subscribe;
