@@ -17,9 +17,9 @@ const
  coPackageStatus_SendToDst         = 3; // Отправлено в другой контур.
  coPackageStatus_SendToDstErr      = 4; // Ошибка отправки в другой контур.
  coPackageStatus_Cancel            = 5; // Отменено в текущей системе.
- coPackageStatus_IncomingMsg       = 6; // Получено входящее сообщение
- coPackageStatus_IncomingMsgCheck  = 7; // Входящее сообщение обработано, идет проверка
- coPackageStatus_IncomingMsgErr    = 8; // Входящее сообщение обработано с ошибками
+ coPackageStatus_IncomeMsg         = 6; // Получено входящее сообщение
+ coPackageStatus_IncomeMsgChecking = 7; // Входящее сообщение обработано, идет проверка
+ coPackageStatus_IncomeMsgErr      = 8; // Входящее сообщение обработано с ошибками
 end;
 
 /*
@@ -46,12 +46,12 @@ end;
  coPackageStatus_Cancel
    |-> coPackageStatus_Draft
 
- coPackageStatus_IncomingMsg
-   |-> coPackageStatus_IncomingMsgCheck
-   |-> coPackageStatus_IncomingMsgErr (автоматически при возникновении ошибок при обработке пакета)
+ coPackageStatus_IncomeMsg
+   |-> coPackageStatus_IncomeMsgCheckin
+   |-> coPackageStatus_IncomeMsgErr (автоматически при возникновении ошибок при обработке пакета)
 
 
- coPackageStatus_IncomingMsgCheck
+ coPackageStatus_IncomeMsgChecking
    |-> coPackageStatus_Done
    |-> coPackageStatus_Cancel
 */
