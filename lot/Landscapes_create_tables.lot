@@ -38,10 +38,80 @@ Create Table Landscape_package "Ландшафты. Пакет данных"
  , name         : string   "Наименование"
  , description  : string   "Описание"
  , Landscapes   : ref(Landscapes) "В каком ландшафте сбор пакета"
- , Status       : byte     "Статус пакета"
+ , Status       : byte     "Статус пакета см. Landscapes.inc"
+ , Author       : ref(x$users) "Автор, ссылка на пользователей Галактики"
+ , AuthorStr    : String   "Автор строкой. Если не будет в целевойм контуре"
 )
 with Index
 (
-   Landscapes01 = NRec (unique, surrogate, journal)
- , Landscapes02 = code (unique)
+   Landscape_package01 = NRec (unique, surrogate, journal)
 );
+
+Create Table Landscape_stat_hstr "Ландшафты. Пакет данных. История изменения статуса"
+  With Table_CODE = 13602
+  With Replace
+  With TableOptions Branched
+(
+   NRec          : comp     "Номер записи"
+ , cLandscape_package : ref(Landscape_package) "Ссылка на пакет"
+ , Status        : byte     "Статус пакета см. Landscapes.inc"
+ , Author        : ref(x$users) "Автор, ссылка на пользователей Галактики"
+ , AuthorStr     : String   "Автор строкой. Если не будет в целевойм контуре"
+ , dateTimeEvent : datetime "Дата-время события"
+ , description   : string   "Описание"
+)
+with Index
+(
+   Landscapestathstr01 = NRec (unique, surrogate, journal)
+ , Landscapestathstr02 = cLandscape_package
+);
+
+Create Table Landscape_pckg_obj "Ландшафты. Пакет данных. Объекты"
+  With Table_CODE = 13603
+  With Replace
+  With TableOptions Branched
+(
+   NRec         : comp     "Номер записи"
+ , cLandscape_package : ref(Landscape_package) "Ссылка на пакет"
+ , description  : string   "Описание"
+ , type         : byte   "Ресурс или объект БД" // если ресурс, то путь на него и место в репо в JSON предлагается передавать
+ , EventOrWhere : byte   "Объект БД. По событиям изменения или по условию"
+ , WhereString  : string "Условие если объект БД и по условию отбираем"
+)
+with Index
+(
+   Landscapepckgobj01 = NRec (unique, surrogate, journal)
+ , Landscapepckgobj02 = cLandscape_package
+);
+
+Create Table Landscape_pckg_data "Ландшафты. Пакет данных. Данные"
+  With Table_CODE = 13604
+  With Replace
+  With TableOptions Branched
+(
+   NRec         : comp     "Номер записи"
+ , cLandscape_pckg_obj : ref(Landscape_pckg_obj) "Ссылка на объект пакета"
+ , data         : LVar "Данные"
+)
+with Index
+(
+   Landscapepckgdata01 = NRec (unique, surrogate, journal)
+ , Landscapepckgdata02 = cLandscape_pckg_obj
+);
+
+Create Table Landscape_pckg_term "Ландшафты. Условия на события изменения данных"
+  With Table_CODE = 13605
+  With Replace
+  With TableOptions Branched
+(
+   NRec                 : comp     "Номер записи"
+ , cLandscape_pckg_obj  : ref(Landscape_pckg_obj)   "Ссылка на объект пакета"
+ , cJRN_Publicationterm : ref(JRN_Publication_term) "Условия публикации записи по событию"
+)
+with Index
+(
+   Landscapepckgterm01 = NRec (unique, surrogate, journal)
+ , Landscapepckgterm02 = cLandscape_pckg_obj  + cJRN_Publicationterm
+ , Landscapepckgterm03 = cJRN_Publicationterm + cLandscape_pckg_obj
+);
+

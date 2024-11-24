@@ -21,28 +21,10 @@ const
 end;
 var _arrQryId: Array [1..1] of tptr;
 #component "C_LANDSCAPES"
-Interface Landscapes_BASE 'JRN_TRACKING базовый объект';
-table struct tJRN (
-   nrec      : comp
- , tablecode : word
- , tablenrec : comp
- , operation : string
-)
-with index (
-  ind1 = nrec
-);
-table struct tqryID (
-   cJRN_TERM : comp
- , npp       : longint
- , tablename : string
-)
-with index (
- ind0 = cJRN_TERM
-)
-;
+Interface Landscapes_BASE 'Ландшафты. Базовый объект';
 create view
 var
-      _needlog : boolean = false;
+     _needlog : boolean = false;
      _LongStringLog : tptr;
      _serviceLog    : TPTR;
      _cJRN_TERM : comp;

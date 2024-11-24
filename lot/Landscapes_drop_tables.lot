@@ -1,4 +1,7 @@
-alter dictionary;
-drop Table JRN_LastNrecs;
-drop Table JRN_Publication_term;
-drop Table JRN_Public_subscribe;
+//alter dictionary;
+drop Table Landscapes;
+drop Table Landscape_package;
+drop Table Landscape_stat_hstr;
+drop Table Landscape_pckg_obj;
+drop Table Landscape_pckg_data;
+drop Table Landscape_pckg_term;
