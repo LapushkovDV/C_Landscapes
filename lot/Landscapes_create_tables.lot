@@ -37,7 +37,7 @@ Create Table Landscape_package "Ландшафты. Пакет данных"
  , code         : string   "Код"
  , name         : string   "Наименование"
  , description  : string   "Описание"
- , Landscapes   : ref(Landscapes) "В каком ландшафте сбор пакета"
+ , cLandscapes  : ref(Landscapes) "В каком ландшафте сбор пакета"
  , Status       : byte     "Статус пакета см. Landscapes.inc"
  , Author       : ref(x$users) "Автор, ссылка на пользователей Галактики"
  , AuthorStr    : String   "Автор строкой. Если не будет в целевойм контуре"
@@ -45,6 +45,7 @@ Create Table Landscape_package "Ландшафты. Пакет данных"
 with Index
 (
    Landscape_package01 = NRec (unique, surrogate, journal)
+ , Landscape_package02 = cLandscapes
 );
 
 Create Table Landscape_stat_hstr "Ландшафты. Пакет данных. История изменения статуса"

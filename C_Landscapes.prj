@@ -21,4 +21,5 @@ LicenseControlInclude=""
 #include Landscapes.inc
 
 #make "vip\Landscapes_BASE.vip"
+#make "vip\Landscapes_edit.vip"
 

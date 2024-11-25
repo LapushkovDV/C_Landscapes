@@ -1,0 +1,67 @@
+/*************************************************************************************************\
+* Наименование: Базовый объект работы с ландшафтами                                               *
+* Контур/Модуль: Перенос данных по ландшафтам                                                     *
+* Примечание:                                                                                     *
+*                                                                                                 *
+* Вид работы  |Номер         |Дата    |Исполнитель              |Проект                           *
+* ----------------------------------------------------------------------------------------------- *
+
+\*************************************************************************************************/
+
+#include Query.vih
+#include LANDSCAPES_BASE.vih
+
+//************************************************************
+const
+end;
+
+#component "C_LANDSCAPES"
+Interface Landscapes_edit 'Ландшафты. Редактирование';
+create view
+var
+ iLANDSCAPES_BASE : LANDSCAPES_BASE;
+from
+   x$files x$files_br
+ , Landscapes          LS_BR
+ , Landscape_package   LS_pkg_BR
+ , Landscape_stat_hstr LS_Stat_hstr_BR
+ , Landscape_pckg_obj  LS_pkg_obj_BR
+ , Landscape_pckg_data LS_pkg_data_BR
+ , Landscape_pckg_term LS_pkg_term_BR
+ , JRN_Publication_term JRN_TERM_BR
+
+ where ((      LS_BR.nrec == LS_pkg_BR.cLandscapes
+       and LS_pkg_BR.nrec == LS_Stat_hstr_BR.cLandscape_package
+       and LS_pkg_BR.nrec == LS_pkg_obj_BR.cLandscape_package
+   and LS_pkg_obj_BR.nrec == LS_pkg_data_BR.cLandscape_pckg_obj
+   and LS_pkg_obj_BR.nrec == LS_pkg_term_BR.cLandscape_pckg_obj
+  and LS_pkg_term_BR.cJRN_Publicationterm == JRN_TERM_BR.nrec
+ ))
+;
+function isExistLS_pkg_BR : boolean; {
+  result := false;
+  if getfirst LS_pkg_BR = tsOK then result := true;
+}
+
+#include Landscapes_edit.pan
+
+handleevent
+cmcheckfield: {
+  case curfield of
+    #LS_BR.password: {
+       set LS_BR.salt := word(timetostr(cur_time,'SS'))+1;
+       LS_BR.password := iLANDSCAPES_BASE.encrypt(LS_BR.password, LS_BR.salt);
+    }
+  end;
+  updatetable;
+}
+cmEdit: {
+  putcommand(cmdefault)
+}
+
+cmdefault:{
+  runwindowmodal(wnLS_BR_Edit);
+  rereadrecord;
+}
+end;
+end.

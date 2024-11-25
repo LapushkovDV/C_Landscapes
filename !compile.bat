@@ -12,7 +12,7 @@ del Atlantis*.res
 
 @set exedir=C:\Galaktika\ATL6\Update_11400\support\exe
 
-@%exedir%\vip.exe JRN_TRACKING.prj /r:JRN_TRACKING.res /c:vip.cfg /u:lapus /p:Zraeqw123 /def:Atl60
+@%exedir%\vip.exe C_Landscapes.prj /r:C_Landscapes.res /c:vip.cfg /u:lapus /p:Zraeqw123 /def:Atl60
 
 rem /c:support_res.cfg
 @echo Компиляция завершена
