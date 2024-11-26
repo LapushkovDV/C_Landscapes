@@ -23,9 +23,9 @@ var
      _needlog : boolean;
      _LongStringLog
    , _serviceLog    : TPTR;
+     _curKontrur : comp;
 from
-   x$files x$files_br
- , Landscapes          LS
+   Landscapes          LS
  , Landscape_package   LS_pkg
  , Landscape_stat_hstr LS_Stat_hstr
  , Landscape_pckg_obj  LS_pkg_obj
@@ -33,6 +33,7 @@ from
  , Landscape_pckg_term LS_pkg_term
 
  , JRN_Publication_term JRN_TERM
+ , Landscapes          LS_select
 
  where ((      LS.nrec == LS_pkg.cLandscapes
        and LS_pkg.nrec == LS_Stat_hstr.cLandscape_package
@@ -41,6 +42,7 @@ from
    and LS_pkg_obj.nrec == LS_pkg_term.cLandscape_pckg_obj
   and LS_pkg_term.cJRN_Publicationterm == JRN_TERM.nrec
  ))
+ condition CurKontur LS_select.nrec <>  _curKontrur
 ;
 
 
@@ -102,6 +104,35 @@ function decrypt(_str:string; _salt : word = 11) : string; {
    result := _strres;
 }
 
+Window winSelectKontur 'Выбор контура', cyan;
+ browse brSelectKontur;
+  table LS_select;
+   Fields
+    LS_select.code         'Код' : [3] , Protect, nopickbutton, #colorneed(TRIM(LS_select.code)='');
+    LS_select.name         'Наименование' : [10] , Protect, nopickbutton, #colorneed(TRIM(LS_select.name)='');
+    LS_select.description  'Описание' : [10] , Protect, nopickbutton;
+    LS_select.httpaddress  'Адрес' : [8] , Protect, nopickbutton, #colorneed(TRIM(LS_select.httpaddress)='');
+    LS_select.port         'Порт' : [3] , Protect, nopickbutton;
+    LS_select.cResieptSys  'Контур-приемник' : [10] , Protect, nopickbutton;
+    LS_select.WhenActive   'Последний опрос' : [5] , Protect, nopickbutton;
+ end;
+end;
+windowevent winSelectKontur;
+ cmdefault: {
+   closewindowex(winSelectKontur, cmDefault)
+ }
+end;
+
+function SelectKontrur(__curKontrur : comp) : comp; {
+  result := 0h;
+  PopConditionForLeave(tcCurKontur, tnLS_select);
+  set _curKontrur := __curKontrur;
+  PushConditionForLeave(tcCurKontur, tnLS_select);
+  if RunWindowModal(winSelectKontur) = cmDefault {
+    result := LS_select.nrec;
+  }
+ PopConditionForLeave(tcCurKontur, tnLS_select);
+}
 handleevent
 cmcheckfield: {
   updatetable;

@@ -2,6 +2,11 @@
 // JRN_TRACKING
 //------------------------------------------------------------------------------
 
+#declare colorneed (FldCondition)
+{Font={BackColor=if(#FldCondition,ColorNeed,0)}}
+#end
+
+
 #statusline "statgal"
 
 #include GalNet.inc end;
@@ -22,4 +27,4 @@ LicenseControlInclude=""
 
 #make "vip\Landscapes_BASE.vip"
 #make "vip\Landscapes_edit.vip"
-
+#make "vip\Landscapes_REST.vip"

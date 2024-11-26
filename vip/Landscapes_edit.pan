@@ -1,7 +1,3 @@
-#declare colorneed (FldCondition)
-{Font={BackColor=if(#FldCondition,ColorNeed,0)}}
-#end
-
 #declare tableeventtable (table)
 TableEvent table #table;
 cmSetDefault: {
@@ -46,7 +42,7 @@ Fields
   LS_BR.isCurrentSys : NoProtect;
   LS_BR.login        : NoProtect, #colorneed(TRIM(LS_BR.login)='');
   LS_BR.password     : NoProtect, #colorneed(TRIM(LS_BR.password)='');
-  LS_BR.cResieptSys  : Protect, PickButton;
+  LS_BR_Reciept.Name  : Protect, PickButton;
   LS_BR.WhenActive   : NoProtect;
 <<
 `Код` .@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@`Наименование`.@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -72,7 +68,7 @@ browse brLS_BR;
   LS_BR.isCurrentSys 'Текущая система' : [3] , Protect, nopickbutton;
 //  LS_BR.login        'Код' : [3] , Protect, nopickbutton, #colorneed(TRIM(LS_BR.login)='');
 //  LS_BR.password     'Код' : [3] , Protect, nopickbutton, #colorneed(TRIM(LS_BR.password)='');
-  LS_BR.cResieptSys  'Контур-приемник' : [3] , Protect, nopickbutton;
+  LS_BR_Reciept.Name  'Контур-приемник' : [3] , Protect, nopickbutton;
   LS_BR.WhenActive   'Последний опрос' : [3] , Protect, nopickbutton;
 end;
 

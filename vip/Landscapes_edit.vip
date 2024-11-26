@@ -21,8 +21,8 @@ create view
 var
  iLANDSCAPES_BASE : LANDSCAPES_BASE;
 from
-   x$files x$files_br
- , Landscapes          LS_BR
+   Landscapes          LS_BR
+ , Landscapes          LS_BR_Reciept
  , Landscape_package   LS_pkg_BR
  , Landscape_stat_hstr LS_Stat_hstr_BR
  , Landscape_pckg_obj  LS_pkg_obj_BR
@@ -36,6 +36,7 @@ from
    and LS_pkg_obj_BR.nrec == LS_pkg_data_BR.cLandscape_pckg_obj
    and LS_pkg_obj_BR.nrec == LS_pkg_term_BR.cLandscape_pckg_obj
   and LS_pkg_term_BR.cJRN_Publicationterm == JRN_TERM_BR.nrec
+    and LS_BR.cResieptSys == LS_BR_Reciept.nrec
  ))
 ;
 function isExistLS_pkg_BR : boolean; {
@@ -52,6 +53,10 @@ cmcheckfield: {
        set LS_BR.salt := word(timetostr(cur_time,'SS'))+1;
        LS_BR.password := iLANDSCAPES_BASE.encrypt(LS_BR.password, LS_BR.salt);
     }
+    #LS_BR.isCurrentSys : {
+      update LS_BR set LS_BR.isCurrentSys := false;
+      set LS_BR.isCurrentSys := true;
+    }
   end;
   updatetable;
 }
@@ -62,6 +67,26 @@ cmEdit: {
 cmdefault:{
   runwindowmodal(wnLS_BR_Edit);
   rereadrecord;
+}
+cmPick: {
+  case curfield of
+    #LS_BR_Reciept.name :{
+        set LS_BR.cResieptSys := 0h;
+    }
+  end;
+  updatetable;
+}
+cmPick: {
+  case curfield of
+    #LS_BR_Reciept.name :{
+      var iLANDSCAPES_BASE : LANDSCAPES_BASE new;
+      var _cRec : comp = iLANDSCAPES_BASE.SelectKontrur(LS_BR.nrec);
+      if _cRec <> 0h {
+        set LS_BR.cResieptSys := _cRec;
+      }
+    }
+  end;
+  updatetable;
 }
 end;
 end.

@@ -70,6 +70,15 @@ function encrypt(_str:string; _salt : word = 11) : string;
 #end
 function decrypt(_str:string; _salt : word = 11) : string;
 
+#doc
+Выбрать контур
+Параметры
+  _curKontrur - текущий контур, будет скрыт в списке выбора
+Возвращаемое значение
+  ссылка на выбранный контур
+#end
+function SelectKontrur(__curKontrur : comp) : comp;
+
 end;
 
 VipInterface Landscapes_BASE Implements oLandscapes_BASE #Licensed_Free;
